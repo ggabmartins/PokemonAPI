@@ -24,9 +24,13 @@ public class ConnectionFactory {
                 return connection;
             }
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            String url = "jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL";
-            String user = "rm561584";
-            String password = "180203";
+            String url = System.getenv("DB_URL");
+            String user = System.getenv("DB_USER");
+            String password = System.getenv("DB_PASSWORD");
+            if(url == null || user == null || password == null) {
+                throw new RuntimeException("Variaveis de ambiente de conexao com o banco de dados erradas.");
+
+            }
             connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             System.out.println("Erro de SQL: " + e.getMessage());
@@ -36,4 +40,5 @@ public class ConnectionFactory {
         return connection;
     }
 }
+
 
